@@ -29,6 +29,15 @@ const thomasQuotes = [
 ]
 
 const checkHref = () => window.location.href.endsWith('notifications')
+const checkThomasOnPage = () => {
+  const authorNode = document.querySelector('.cu-quote__author-text') || null
+
+  if (authorNode) {
+    return authorNode.textContent.endsWith('Thomas')
+  } else {
+    return false
+  }
+}
 const getRandomThomasQuote = () => thomasQuotes[Math.floor(Math.random() * thomasQuotes.length)]
 
 function insertQuote() {
@@ -53,24 +62,21 @@ function insertQuote() {
 
     authorNode.textContent = 'Thomas'
     quoteNode.innerHTML = newQuoteHtml
-
-    pageRevisited = false
   } else {
     setTimeout(() => insertQuote(), 1)
   }
 }
 
-let pageRevisited = true
 let quote = getRandomThomasQuote()
 
 setInterval(() => {
   const isOnNotificationsPage = checkHref()
 
-  if (!isOnNotificationsPage) {
-    pageRevisited = true
-  }
+  if (isOnNotificationsPage) {
+    const isThomasOnPage = checkThomasOnPage()
 
-  if (isOnNotificationsPage && pageRevisited) {
-    insertQuote()
+    if (!isThomasOnPage) {
+      insertQuote()
+    }
   }
 }, 500)
