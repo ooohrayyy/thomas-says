@@ -1,3 +1,12 @@
+// ==UserScript==
+// @name         Цитаты Великих Томасов
+// @version      0.0.2
+// @description  Great Quotes By Great Thomases
+// @author       Boris Nikitashov
+// @match        https://app.clickup.com/*/notifications
+// @grant        none
+// ==/UserScript==
+
 const thomasQuotes = [
   'совет всем норм челам - не надо париться из-за хуйни, если вы норм челы, значит все хорошо!',
   'failure is not an option for us my friend',
