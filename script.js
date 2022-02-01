@@ -7,6 +7,8 @@
 // @grant        none
 // ==/UserScript==
 
+const THOMAS_NAME = 'Томас Павлович Запорожцев'
+
 const thomasQuotes = [
   'совет всем норм челам - не надо париться из-за хуйни, если вы норм челы, значит все хорошо!',
   'failure is not an option for us my friend',
@@ -33,7 +35,7 @@ const checkThomasOnPage = () => {
   const authorNode = document.querySelector('.cu-quote__author-text') || null
 
   if (authorNode) {
-    return authorNode.textContent.endsWith('Thomas')
+    return authorNode.textContent.endsWith(THOMAS_NAME)
   } else {
     return false
   }
@@ -60,7 +62,7 @@ function insertQuote() {
         ${getRandomThomasQuote()}
       </div>`
 
-    authorNode.textContent = 'Thomas'
+    authorNode.textContent = THOMAS_NAME
     quoteNode.innerHTML = newQuoteHtml
   } else {
     setTimeout(() => insertQuote(), 1)
