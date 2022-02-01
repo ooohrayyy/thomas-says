@@ -69,8 +69,6 @@ function insertQuote() {
   }
 }
 
-let quote = getRandomThomasQuote()
-
 setInterval(() => {
   const isOnNotificationsPage = checkHref()
 
