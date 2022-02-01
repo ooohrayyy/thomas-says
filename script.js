@@ -3,7 +3,7 @@
 // @version      0.0.2
 // @description  Great Quotes By Great Thomases
 // @author       Boris Nikitashov
-// @match        https://app.clickup.com/*/notifications
+// @match        https://app.clickup.com/*
 // @grant        none
 // ==/UserScript==
 
@@ -28,18 +28,12 @@ const thomasQuotes = [
   'мне недавно снился Кластерикс',
 ]
 
-let pageRevisited = false
-let quote = getRandomThomasQuote()
-
+const checkHref = () => window.location.href.endsWith('notifications')
 const getRandomThomasQuote = () => thomasQuotes[Math.floor(Math.random() * thomasQuotes.length)]
 
 function insertQuote() {
   const authorNode = document.querySelector('.cu-quote__author-text') || null
   const quoteNode = document.querySelector('.cu-quote__text') || null
-
-  if (pageRevisited) {
-    quote = getRandomThomasQuote()
-  }
 
   if (authorNode && quoteNode) {
     const newQuoteHtml = `<div class="cu-quote__text ng-star-inserted" style="">
@@ -54,7 +48,7 @@ function insertQuote() {
           ></path>
         </svg>
         </div>
-        ${quote}
+        ${getRandomThomasQuote()}
       </div>`
 
     authorNode.textContent = 'Thomas'
@@ -62,6 +56,21 @@ function insertQuote() {
 
     pageRevisited = false
   } else {
-    setTimeout(() => insertQuote(), 100)
+    setTimeout(() => insertQuote(), 1)
   }
 }
+
+let pageRevisited = true
+let quote = getRandomThomasQuote()
+
+setInterval(() => {
+  const isOnNotificationsPage = checkHref()
+
+  if (!isOnNotificationsPage) {
+    pageRevisited = true
+  }
+
+  if (isOnNotificationsPage && pageRevisited) {
+    insertQuote()
+  }
+}, 500)
