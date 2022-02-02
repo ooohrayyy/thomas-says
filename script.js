@@ -4,7 +4,10 @@
 // @description  Great Quotes By Great Thomases
 // @author       Boris Nikitashov
 // @match        https://app.clickup.com/*
-// @grant        none
+// @updateURL    https://raw.githubusercontent.com/ooohrayyy/thomas-says/main/script.js
+// @downloadURL  https://raw.githubusercontent.com/ooohrayyy/thomas-says/main/script.js
+// @supportURL   https://github.com/ooohrayyy/thomas-says
+// @homepage     https://github.com/ooohrayyy/thomas-says
 // ==/UserScript==
 
 const THOMAS_NAME = 'Томас Павлович Запорожцев'
