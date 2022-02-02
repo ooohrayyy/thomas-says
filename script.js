@@ -71,8 +71,6 @@ function insertQuote() {
 
     authorNode.textContent = THOMAS_NAME
     quoteNode.innerHTML = newQuoteHtml
-  } else {
-    setTimeout(() => insertQuote(), 1)
   }
 }
 
@@ -86,4 +84,4 @@ setInterval(() => {
       insertQuote()
     }
   }
-}, 500)
+}, 1)
