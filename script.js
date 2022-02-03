@@ -2,7 +2,7 @@
 // @name         Цитаты Великих Томасов
 // @version      0.0.3
 // @description  Great Quotes By Great Thomases
-// @author       Boris Nikitashov
+// @author       Boris Nikitashov, Alex Mazurenko
 // @match        https://app.clickup.com/*
 // @updateURL    https://raw.githubusercontent.com/ooohrayyy/thomas-says/main/script.js
 // @downloadURL  https://raw.githubusercontent.com/ooohrayyy/thomas-says/main/script.js
