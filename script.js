@@ -69,9 +69,12 @@ const checkHref = () => window.location.href.endsWith('notifications')
 const getRandomThomasQuote = () => thomasQuotes[Math.floor(Math.random() * thomasQuotes.length)]
 
 const insertQuote = () => {
+  const TEXT_NODE_TYPE = 3
+
   const quoteNode = document.querySelector('.cu-quote__text')
   const quoteTextNode = quoteNode?.childNodes && 
-    [...quoteNode.childNodes].filter(n => n.nodeType === 3)?.[0]
+    [...quoteNode.childNodes].filter(n => n.nodeType === TEXT_NODE_TYPE)?.[0]
+
   const authorNode = document.querySelector('.cu-quote__author-text')
 
   if (quoteTextNode && authorNode) {
@@ -81,7 +84,9 @@ const insertQuote = () => {
 }
 
 const observerCallback = (mutationsList) => {
-  if (checkHref()) {
+  const isOnNotificationsPage = checkHref()
+
+  if (isOnNotificationsPage) {
     [...mutationsList]
       .filter(m => m.target.classList?.contains('cu-notifications__body'))
       .forEach(m => {
@@ -91,9 +96,10 @@ const observerCallback = (mutationsList) => {
       })
   }
 }
+
 const observeOptions = {
   childList: true,
-  subtree: true
+  subtree: true,
 }
 
 const observer = new MutationObserver(observerCallback)
