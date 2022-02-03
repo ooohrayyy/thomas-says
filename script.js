@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Цитаты Великих Томасов
-// @version      0.0.2
+// @version      0.0.3
 // @description  Great Quotes By Great Thomases
 // @author       Boris Nikitashov
 // @match        https://app.clickup.com/*
@@ -10,7 +10,7 @@
 // @homepage     https://github.com/ooohrayyy/thomas-says
 // ==/UserScript==
 
-const THOMAS_NAME = 'Томас Павлович Запорожцев'
+const THOMAS_NAME = 'Thomas Zaporozhtsev'
 
 const thomasQuotes = [
   'совет всем норм челам - не надо париться из-за хуйни, если вы норм челы, значит все хорошо!',
@@ -38,53 +38,63 @@ const thomasQuotes = [
   'Супер, красава, чемпион, лучший, топ-бой 😎',
   'сейчас будем тестинг лить на прод. не удивляйся, если что',
   'ну ты потом разберись с этой задачей по-быстренькому',
+  'у нас не так все жестко',
+  'дякую',
+  'это вери супер уржент если шо',
+  'ееебоиии',
+  'чемпион людей, чемпион зверей',
+  'это же много времени не займет?)',
+  'убираем за собой, не мусорим)',
+  'с одной стороны - заебно, с другой говно делать не хочется',
+  'вообще там Борис должен валидаторы из ИМС интегрировать',
+  'ты как думаешь? можем пока оставить как есть?',
+  'ну бывает) ничего) такая работа у программистов)',
+  'что тут не так? можешь объяснить ламеру?)',
+  'прилетит добрый дядя волшебник на голубом вертолете и все баги пофиксятся сами)',
+  'слава богу, у нас sc(r)um',
+  'рили покс лол',
+  'пить курить не буду',
+  'мое почтение',
+  'как обстановка на фронте?',
+  'как раз хотел спросить не кончились ли у тебя таски и не хочешь ли добавки)',
+  'всегда приятно когда CEO так вовлечен в процесс',
+  'адьямо фумаре',
+  'много багов(',
+  'уржент баги сами себя до конца некст недели не пофиксят',
+  '4:20 go?',
+  'суть в том, чтобы сделать как в немецких компаниях, 1 в 1',
 ]
 
 const checkHref = () => window.location.href.endsWith('notifications')
-const checkThomasOnPage = () => {
-  const authorNode = document.querySelector('.cu-quote__author-text') || null
-
-  if (authorNode) {
-    return authorNode.textContent.endsWith(THOMAS_NAME)
-  } else {
-    return false
-  }
-}
 const getRandomThomasQuote = () => thomasQuotes[Math.floor(Math.random() * thomasQuotes.length)]
 
-function insertQuote() {
-  const authorNode = document.querySelector('.cu-quote__author-text') || null
-  const quoteNode = document.querySelector('.cu-quote__text') || null
+const insertQuote = () => {
+  const quoteNode = document.querySelector('.cu-quote__text')
+  const quoteTextNode = quoteNode?.childNodes && 
+    [...quoteNode.childNodes].filter(n => n.nodeType === 3)?.[0]
+  const authorNode = document.querySelector('.cu-quote__author-text')
 
-  if (authorNode && quoteNode) {
-    const newQuoteHtml = `<div class="cu-quote__text ng-star-inserted" style="">
-      <div class="cu-quote__double-quote">
-        <div class="cu-quote__double-quote-shadow"></div>
-        <div class="cu-quote__double-quote-shadow"></div>
-        <svg width="54" height="34" xmlns="http://www.w3.org/2000/svg">
-          <path d="M23 22.625C23 28.907 17.851 34 11.5 34S0 28.907 0 22.625C0 16.685 3.742 5.13 17.51.273c.519-.183.931.561.544.953-2.454 
-            2.491-4.728 5.919-5.751 8.168-.45.989.305 1.858 1.37 2.065C18.968 12.486 23 17.096 23 22.625ZM54 22.625C54 28.907 48.851 34 42.5 
-            34S31 28.907 31 22.625C31 16.685 34.742 5.13 48.51.273c.519-.183.931.561.544.953-2.454 2.491-4.728 5.919-5.751 8.168-.45.989.305 
-            1.858 1.37 2.065C49.968 12.486 54 17.096 54 22.625Z"
-          ></path>
-        </svg>
-        </div>
-        ${getRandomThomasQuote()}
-      </div>`
-
+  if (quoteTextNode && authorNode) {
+    quoteTextNode.textContent = getRandomThomasQuote()
     authorNode.textContent = THOMAS_NAME
-    quoteNode.innerHTML = newQuoteHtml
   }
 }
 
-setInterval(() => {
-  const isOnNotificationsPage = checkHref()
-
-  if (isOnNotificationsPage) {
-    const isThomasOnPage = checkThomasOnPage()
-
-    if (!isThomasOnPage) {
-      insertQuote()
-    }
+const observerCallback = (mutationsList) => {
+  if (checkHref()) {
+    [...mutationsList]
+      .filter(m => m.target.classList?.contains('cu-notifications__body'))
+      .forEach(m => {
+        [...m.addedNodes]
+          .filter(n => n.classList?.contains('cu-quote'))
+          .forEach(_ => insertQuote())
+      })
   }
-}, 1)
+}
+const observeOptions = {
+  childList: true,
+  subtree: true
+}
+
+const observer = new MutationObserver(observerCallback)
+observer.observe(document.body, observeOptions)
