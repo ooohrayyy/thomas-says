@@ -16,27 +16,35 @@ const getRandomThomasQuote = async () => fetch(`https://thomas-says-api.vercel.a
 
 const showLoadingDots = node => {
   let i = 0
+
   const showDots = () => {
     node.textContent = '.'.repeat(i % 3 + 1)
     i++
   }
+
   showDots()
+
   return setInterval(showDots, 100)
 }
 
 const insertQuote = async () => {
+  const TEXT_NODE_TYPE = 3
+
   const quoteNode = document.querySelector('.cu-quote__text')
   const quoteTextNode = quoteNode?.childNodes &&
-    [...quoteNode.childNodes].filter(n => n.nodeType === 3)?.[0]
+    [...quoteNode.childNodes].filter(n => n.nodeType === TEXT_NODE_TYPE)?.[0]
+
   const authorNode = document.querySelector('.cu-quote__author-text')
 
   if (quoteTextNode && authorNode) {
     authorNode.textContent = ''
+
     const intervalToken = showLoadingDots(quoteTextNode)
 
     const { text, authorName } = await getRandomThomasQuote()
 
     clearInterval(intervalToken)
+
     quoteTextNode.textContent = text
     authorNode.textContent = authorName
   }
