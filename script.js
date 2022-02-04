@@ -10,8 +10,6 @@
 // @homepage     https://github.com/ooohrayyy/thomas-says
 // ==/UserScript==
 
-const THOMAS_NAME = 'Thomas Zaporozhtsev'
-
 const checkHref = () => window.location.href.endsWith('notifications')
 
 const getRandomThomasQuote = async () => fetch(`https://thomas-says-api.vercel.app/api/quote/random`).then(r => r.json())
@@ -23,7 +21,7 @@ const showLoadingDots = node => {
     i++
   }
   showDots()
-  return setInterval(showDots, 200)
+  return setInterval(showDots, 100)
 }
 
 const insertQuote = async () => {
@@ -65,4 +63,3 @@ const observeOptions = {
 
 const observer = new MutationObserver(observerCallback)
 observer.observe(document.body, observeOptions)
-
