@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Цитаты Великих Томасов
-// @version      0.0.4
+// @version      0.1.0
 // @description  Great Quotes By Great Thomases
 // @author       Boris Nikitashov, Alex Mazurenko
 // @match        https://app.clickup.com/*
