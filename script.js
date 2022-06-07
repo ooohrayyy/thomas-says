@@ -10,9 +10,11 @@
 // @homepage     https://github.com/ooohrayyy/thomas-says
 // ==/UserScript==
 
+const BACKEND_ENDPOINT = 'https://thomas-says-api.vercel.app/api/quote/random'
+
 const checkHref = () => window.location.href.endsWith('notifications')
 
-const getRandomThomasQuote = async () => fetch(`https://thomas-says-api.vercel.app/api/quote/random`).then(r => r.json())
+const getRandomThomasQuote = async () => fetch(BACKEND_ENDPOINT).then(r => r.json())
 
 const showLoadingDots = node => {
   let i = 0
